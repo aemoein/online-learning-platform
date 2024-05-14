@@ -17,6 +17,12 @@ const courseSchema = new mongoose.Schema({
         default: 0,
     },
     reviews: [String],
+    status: {
+        type: String,
+        enum: ['pending', 'approved'],
+        default: 'pending',
+    },
+    content: String,
 });
 
 const Course = mongoose.model('Course', courseSchema);

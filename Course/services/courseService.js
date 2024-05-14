@@ -25,10 +25,21 @@ const deleteCourse = async (id) => {
     return await Course.findByIdAndDelete(id);
 };
 
+// Function to approve a course by ID
+const approveCourse = async (id) => {
+    const course = await Course.findById(id);
+    if (!course) {
+        throw new Error('Course not found');
+    }
+    course.status = 'approved';
+    return await course.save();
+};
+
 module.exports = {
     getAllCourses,
     getCourseById,
     createCourse,
     updateCourse,
-    deleteCourse
+    deleteCourse,
+    approveCourse
 };

@@ -1,28 +1,44 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const config = require('./config');
-const courseRoutes = require('./routes/courseRoutes');
+const config = require('./config/config');
+const cors = require('cors');
+const studentCourseRoutes = require('./routes/studentCourseRoutes');
+const adminCourseRoutes = require('./routes/adminCourseRoutes');
+const instructorCourseRoutes = require('./routes/instructorCourseRoutes');
+const extractToken = require('./middleware/extractTokenMiddleware');
+const verifyTokenAndRole = require('./middleware/authMiddleware');
 
 const app = express();
 
-// Middleware to parse JSON bodies
 app.use(express.json());
+app.use(extractToken);
+app.use(cors());
 
-// Connect to MongoDB
-mongoose.connect(config.mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-})
-.then(() => {
-    console.log('Connected to MongoDB');
-})
-.catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
-    process.exit(1); // Exit the process if unable to connect to MongoDB
-});
+const logRequests = (req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+  };
+  
+  app.use(logRequests);
+
+console.log('MongoDB local URI:', config.mongoURIS);
+console.log('MongoDB remote URI:', config.mongoURI);
+console.log('Server port:', config.port);
+console.log('JWT Secret Key:', config.jwtSecret);
+
+mongoose.connect(config.mongoURI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
+
+
 // Route for courses
-app.use('/courses', courseRoutes);
+app.use('/student/courses', verifyTokenAndRole('student'), studentCourseRoutes);
+
+// Middleware to verify token and role for admin routes
+app.use('/admin/courses', verifyTokenAndRole('admin'), adminCourseRoutes);
+
+// Middleware to verify token and role for instructor routes
+app.use('/instructor/courses', verifyTokenAndRole('instructor'), instructorCourseRoutes);
 
 // Handle invalid routes
 app.use((req, res, next) => {
