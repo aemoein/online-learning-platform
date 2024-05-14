@@ -2,46 +2,91 @@ const Course = require('../models/Course');
 
 // Function to get all courses
 const getAllCourses = async () => {
-    return await Course.find();
+    try {
+        return await Course.find();
+    } catch (error) {
+        throw new Error(`Failed to get all courses: ${error.message}`);
+    }
 };
 
 // Function to get a course by ID
 const getCourseById = async (id) => {
-    return await Course.findById(id);
+    try {
+        const course = await Course.findById(id);
+        if (!course) {
+            throw new Error('Course not found');
+        }
+        return course;
+    } catch (error) {
+        throw new Error(`Failed to get course by ID: ${error.message}`);
+    }
 };
 
 // Function to create a new course
 const createCourse = async (courseData) => {
-    return await Course.create(courseData);
+    try {
+        return await Course.create(courseData);
+    } catch (error) {
+        throw new Error(`Failed to create course: ${error.message}`);
+    }
 };
 
 // Function to update a course by ID
 const updateCourse = async (id, updatedCourseData) => {
-    return await Course.findByIdAndUpdate(id, updatedCourseData, { new: true });
+    try {
+        const course = await Course.findByIdAndUpdate(id, updatedCourseData, { new: true });
+        if (!course) {
+            throw new Error('Course not found');
+        }
+        return course;
+    } catch (error) {
+        throw new Error(`Failed to update course: ${error.message}`);
+    }
 };
 
 // Function to delete a course by ID
 const deleteCourse = async (id) => {
-    return await Course.findByIdAndDelete(id);
+    try {
+        const course = await Course.findByIdAndDelete(id);
+        if (!course) {
+            throw new Error('Course not found');
+        }
+        return course;
+    } catch (error) {
+        throw new Error(`Failed to delete course: ${error.message}`);
+    }
 };
 
 // Function to approve a course by ID
 const approveCourse = async (id) => {
-    const course = await Course.findById(id);
-    if (!course) {
-        throw new Error('Course not found');
+    try {
+        const course = await Course.findById(id);
+        if (!course) {
+            throw new Error('Course not found');
+        }
+        course.status = 'approved';
+        return await course.save();
+    } catch (error) {
+        throw new Error(`Failed to approve course: ${error.message}`);
     }
-    course.status = 'approved';
-    return await course.save();
 };
 
 // Function to get only pending courses
 const getPendingCourses = async () => {
-    return await Course.find({ status: 'pending' });
+    try {
+        return await Course.find({ status: 'pending' });
+    } catch (error) {
+        throw new Error(`Failed to get pending courses: ${error.message}`);
+    }
 };
 
+// Function to get approved courses
 const getApprovedCourses = async () => {
-    return await Course.find({ status: 'approved' });
+    try {
+        return await Course.find({ status: 'approved' });
+    } catch (error) {
+        throw new Error(`Failed to get approved courses: ${error.message}`);
+    }
 };
 
 module.exports = {

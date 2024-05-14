@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Chip, Button } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 
 const StudentCourseCard = ({
   name,
@@ -163,7 +163,6 @@ const StudentCourseCard = ({
             sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                //marginTop: '10px',
                 maxWidth: '87vw'
             }}
         >

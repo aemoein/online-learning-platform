@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import StudentCourseCard from '../../Components/Cards/Student/StudentCourseCard';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Navbar from '../../Components/Navbar/StudentNavbar';
 
 const AllCourses = () => {
@@ -27,6 +27,7 @@ const AllCourses = () => {
       try {
         const response = await axiosInstance.get('student/courses/');
         setCourses(response.data);
+        console.log(courses);
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
@@ -52,25 +53,24 @@ const AllCourses = () => {
         <Typography variant="h4" sx={{ marginBottom: '2rem', fontFamily: 'Poppins', fontWeight: '900' }}>
           Pending Courses
         </Typography>
-        <Grid container spacing={4}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {courses.map(course => (
-            <Grid item key={course._id}>
-              <StudentCourseCard
-                name={course.name}
-                duration={course.duration}
-                category={course.category}
-                rating={course.rating}
-                capacity={course.capacity}
-                enrolledStudents={course.enrolledStudents}
-                reviews={course.reviews}
-                status={course.status}
-                content={course.content}
-                imageUrl={course.imageUrl}
-                onApprove={() => handleEnroll(course._id)}
-              />
-            </Grid>
+            <StudentCourseCard
+              key={course._id}
+              name={course.name}
+              duration={course.duration}
+              category={course.category}
+              rating={course.rating}
+              capacity={course.capacity}
+              enrolledStudents={course.enrolledStudents}
+              reviews={course.reviews}
+              status={course.status}
+              content={course.content}
+              imageUrl={course.imageUrl}
+              onApprove={() => handleEnroll(course._id)}
+            />
           ))}
-        </Grid>
+        </Box>
       </Box>
     </>
   );

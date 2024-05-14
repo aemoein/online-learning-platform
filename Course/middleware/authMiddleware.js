@@ -12,18 +12,18 @@ const verifyTokenAndRole = (requiredRole) => (req, res, next) => {
         const decoded = jwt.verify(token, config.jwtSecret);
         const { userId, role } = decoded;
 
-        if (role !== requiredRole) {
-            return res.status(403).json({ error: 'Insufficient permissions' });
-        }
-
         console.log('Token:', token);
         console.log('User ID:', userId);
         console.log('Role:', role);
 
+        if (role !== requiredRole) {
+            return res.status(403).json({ error: 'Insufficient permissions' });
+        }
+
         req.userId = userId;
         req.role = role;
         next();
-        
+
     } catch (error) {
         return res.status(401).json({ error: 'Invalid token' });
     }
