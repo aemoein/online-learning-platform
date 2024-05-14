@@ -3,34 +3,40 @@ package com.example.userservice.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Students")
-public class Student implements Users {
-    @Column(name= "Username")
+@Table(name = "user")
+public class UserEntity {
+    public enum Role {
+        ADMIN,
+        INSTRUCTOR,
+        STUDENT
+    }
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name= "Email" , nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name= "Password")
+    @Column(nullable = false)
     private String password;
 
-    @Column(name= "Affiliation")
+    @Column
     private String affiliation;
 
-    @Column(name= "Bio")
+    @Column
     private String bio;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Override
     public String getUsername() {
         return username;
     }
 
-    @Override
     public void setUsername(String username) {
         this.username = username;
     }
@@ -67,8 +73,19 @@ public class Student implements Users {
         this.bio = bio;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role roles) {
+        this.role = roles;
+    }
+
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
