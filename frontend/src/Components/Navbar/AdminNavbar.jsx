@@ -12,10 +12,10 @@ const Navbar = () => {
           </Typography>
         </Link>
         <Box>
-          <Button component={Link} to="/admin/user-accounts" color="inherit" sx={buttonStyles}>
+          <Button component={Link} to="/admin/user" color="inherit" sx={buttonStyles}>
             User Accounts
           </Button>
-          <Button component={Link} to="/admin/review-courses" color="inherit" sx={buttonStyles}>
+          <Button component={Link} to="/admin/review/course" color="inherit" sx={buttonStyles}>
             Review Courses
           </Button>
           <Button component={Link} to="/admin/track-usage" color="inherit" sx={buttonStyles}>

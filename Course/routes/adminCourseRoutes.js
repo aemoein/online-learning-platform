@@ -5,6 +5,9 @@ const courseController = require('../controllers/courseController');
 // Route for getting all courses
 router.get('/', courseController.getAllCoursesController);
 
+// Route for getting all pending courses
+router.get('/pending', courseController.getPendingCoursesController);
+
 // Route for getting a single course by ID
 router.get('/:id', courseController.getCourseByIdController);
 

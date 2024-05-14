@@ -8,16 +8,17 @@ function CreateCourse() {
     const [duration, setDuration] = useState('');
     const [category, setCategory] = useState('');
     const [content, setContent] = useState('');
+    const [capacity, setCapacity] = useState(''); // Add state for capacity
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const token = localStorage.getItem('token');
 
-        if (token) {
-         console.log('Token:', token);
-        } else {
-         console.log('Token not found in LocalStorage');
-        }
+    if (token) {
+        console.log('Token:', token);
+    } else {
+        console.log('Token not found in LocalStorage');
+    }
 
     const handleCreateCourse = async (e) => {
         e.preventDefault();
@@ -30,6 +31,7 @@ function CreateCourse() {
                     duration: parseInt(duration),
                     category,
                     content,
+                    capacity: parseInt(capacity),
                 },
                 {
                     headers: {
@@ -103,6 +105,17 @@ function CreateCourse() {
                             name="content"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="capacity"
+                            label="Capacity"
+                            name="capacity"
+                            type="number"
+                            value={capacity}
+                            onChange={(e) => setCapacity(e.target.value)} // Handle capacity input change
                         />
                         <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, fontFamily: 'Poppins', fontWeight: '700'}}>
                             Create Course

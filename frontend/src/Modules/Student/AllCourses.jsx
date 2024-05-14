@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import AdminCourseCard from '../../Components/Cards/Admin/AdminCourseCard';
+import StudentCourseCard from '../../Components/Cards/Student/StudentCourseCard';
 import { Box, Grid, Typography } from '@mui/material';
-import Navbar from '../../Components/Navbar/AdminNavbar';
+import Navbar from '../../Components/Navbar/StudentNavbar';
 
-const CourseReview = () => {
+const AllCourses = () => {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
 
@@ -25,31 +25,22 @@ const CourseReview = () => {
 
     const fetchPendingCourses = async () => {
       try {
-        const response = await axiosInstance.get('admin/courses/pending');
+        const response = await axiosInstance.get('student/courses/');
         setCourses(response.data);
       } catch (error) {
-        console.error('Error fetching pending courses:', error);
+        console.error('Error fetching courses:', error);
       }
     };
 
     fetchPendingCourses();
   }, [navigate, token, axiosInstance]);
 
-  const handleApprove = async (id) => {
+  const handleEnroll = async (id) => {
     try {
-      await axiosInstance.put(`admin/courses/${id}/approve`);
+      await axiosInstance.put(`student/enroll/${id}`);
       setCourses(courses.filter(course => course._id !== id));
     } catch (error) {
-      console.error('Error approving course:', error);
-    }
-  };
-
-  const handleReject = async (id) => {
-    try {
-      await axiosInstance.delete(`admin/courses/${id}`);
-      setCourses(courses.filter(course => course._id !== id));
-    } catch (error) {
-      console.error('Error rejecting course:', error);
+      console.error('Error enrolling in the course:', error);
     }
   };
 
@@ -64,7 +55,7 @@ const CourseReview = () => {
         <Grid container spacing={4}>
           {courses.map(course => (
             <Grid item key={course._id}>
-              <AdminCourseCard
+              <StudentCourseCard
                 name={course.name}
                 duration={course.duration}
                 category={course.category}
@@ -75,8 +66,7 @@ const CourseReview = () => {
                 status={course.status}
                 content={course.content}
                 imageUrl={course.imageUrl}
-                onApprove={() => handleApprove(course._id)}
-                onReject={() => handleReject(course._id)}
+                onApprove={() => handleEnroll(course._id)}
               />
             </Grid>
           ))}
@@ -86,4 +76,4 @@ const CourseReview = () => {
   );
 };
 
-export default CourseReview;
+export default AllCourses;

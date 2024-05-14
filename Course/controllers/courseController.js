@@ -4,7 +4,9 @@ const {
     createCourse,
     updateCourse,
     deleteCourse,
-    approveCourse
+    approveCourse,
+    getPendingCourses,
+    getApprovedCourses,
 } = require('../services/courseService');
 
 // Controller function to get all courses
@@ -71,11 +73,33 @@ const approveCourseController = async (req, res) => {
     }
 };
 
+// Controller function to get all pending courses
+const getPendingCoursesController = async (req, res) => {
+    try {
+        const pendingCourses = await getPendingCourses();
+        res.json(pendingCourses);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Controller function to get all pending courses
+const getApprovedCoursesController = async (req, res) => {
+    try {
+        const ApprovedCourses = await getApprovedCourses();
+        res.json(ApprovedCourses);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getAllCoursesController,
     getCourseByIdController,
     createCourseController,
     updateCourseController,
     deleteCourseController,
-    approveCourseController
+    approveCourseController,
+    getPendingCoursesController,
+    getApprovedCoursesController,
 };

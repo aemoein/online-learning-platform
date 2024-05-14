@@ -35,11 +35,22 @@ const approveCourse = async (id) => {
     return await course.save();
 };
 
+// Function to get only pending courses
+const getPendingCourses = async () => {
+    return await Course.find({ status: 'pending' });
+};
+
+const getApprovedCourses = async () => {
+    return await Course.find({ status: 'approved' });
+};
+
 module.exports = {
     getAllCourses,
     getCourseById,
     createCourse,
     updateCourse,
     deleteCourse,
-    approveCourse
+    approveCourse,
+    getPendingCourses,
+    getApprovedCourses
 };
