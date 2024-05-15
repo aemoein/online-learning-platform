@@ -9,19 +9,19 @@ const StudentCourseCard = ({
   capacity,
   enrolledStudents,
   reviews,
-  status,
   content,
   width,
   imageUrl,
+  instructorName,
+  instructorAffiliation,
   onApprove,
-  onReject,
 }) => {
   return (
     <Box
       sx={{
         position: 'relative',
         width: width ? width : '93vw',
-        height: 300,
+        height: 320,
         borderRadius: '10px',
         overflow: 'hidden',
         boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
@@ -68,16 +68,35 @@ const StudentCourseCard = ({
           }}>
           {name}
         </Typography>
-        <Typography
-          sx={{
-            fontFamily: 'Poppins',
-            fontWeight: '900',
-            width: 'fit-content',
-            fontSize: 16,
-            color: '#000'
-          }}>
-          Duration: {duration} hours
-        </Typography>
+        <Box 
+            sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                //marginTop: '10px',
+                maxWidth: '55vw'
+            }}
+        >
+            <Typography
+            sx={{
+                fontFamily: 'Poppins',
+                fontWeight: '900',
+                width: 'fit-content',
+                fontSize: 16,
+                color: '#000'
+            }}>
+            Instructor: {instructorName}
+            </Typography>
+            <Typography
+            sx={{
+                fontFamily: 'Poppins',
+                fontWeight: '900',
+                width: 'fit-content',
+                fontSize: 16,
+                color: '#000'
+            }}>
+            Affiliation: {instructorAffiliation}
+            </Typography>
+        </Box>
         <Typography
           sx={{
             fontFamily: 'Poppins',
@@ -96,38 +115,53 @@ const StudentCourseCard = ({
             fontSize: 16,
             color: '#000'
           }}>
-          Capacity: {capacity}
+          Duration: {duration} hours
         </Typography>
-        {status !== 'pending' && ( 
-            <Typography
-                sx={{
-                fontFamily: 'Poppins',
-                fontWeight: '900',
-                width: 'fit-content',
-                fontSize: 16,
-                color: '#000'
-                }}>
-                Rating: {rating}
-            </Typography>
-        )}
-        {status !== 'pending' && ( 
-            <Typography
-             sx={{
-               fontFamily: 'Poppins',
-               fontWeight: '900',
-               width: 'fit-content',
-               fontSize: 16,
-               color: '#000'
-             }}>
-             Enrolled Students: {enrolledStudents}
-           </Typography>
-        )}
+        <Box 
+            sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                //marginTop: '10px',
+                maxWidth: '36vw'
+            }}
+        > 
+          <Typography
+            sx={{
+              fontFamily: 'Poppins',
+              fontWeight: '900',
+              width: 'fit-content',
+              fontSize: 16,
+              color: '#000'
+            }}>
+            Capacity: {capacity}
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: 'Poppins',
+              fontWeight: '900',
+              width: 'fit-content',
+              fontSize: 16,
+              color: '#000'
+            }}>
+            Enrolled Students: {enrolledStudents}
+          </Typography>
+        </Box>
+        <Typography
+            sx={{
+            fontFamily: 'Poppins',
+            fontWeight: '900',
+            width: 'fit-content',
+            fontSize: 16,
+            color: '#000'
+            }}>
+            Rating: {rating}
+        </Typography>
         <Typography
           sx={{
             fontFamily: 'Poppins',
             fontWeight: '400',
             width: 'fit-content',
-            maxWidth: '65vw',
+            maxWidth: '75vw',
             marginTop: '5px',
             fontSize: 15,
             color: '#000'

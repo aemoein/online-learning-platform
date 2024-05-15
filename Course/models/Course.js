@@ -23,6 +23,11 @@ const courseSchema = new mongoose.Schema({
         default: 'pending',
     },
     content: String,
+    instructor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true,
+    },
 });
 
 const Course = mongoose.model('Course', courseSchema);

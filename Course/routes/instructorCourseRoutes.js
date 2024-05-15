@@ -8,6 +8,8 @@ router.get('/', courseController.getAllCoursesController);
 // Route for getting a single course by ID
 router.get('/:id', courseController.getCourseByIdController);
 
+router.put('/enroll/:courseId', courseController.enrollStudentController);
+
 // Route for creating a new course
 router.post('/', courseController.createCourseController);
 

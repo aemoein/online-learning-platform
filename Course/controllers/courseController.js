@@ -36,7 +36,16 @@ const getCourseByIdController = async (req, res) => {
 // Controller function to create a new course
 const createCourseController = async (req, res) => {
     try {
-        const course = await createCourse(req.body);
+        if (req.role !== 'instructor') {
+            return res.status(403).json({ message: 'Only instructors can create courses.' });
+        }
+
+        const courseData = {
+            ...req.body,
+            instructor: req.userId,
+        };
+
+        const course = await createCourse(courseData);
         res.status(201).json(course);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -73,6 +82,17 @@ const approveCourseController = async (req, res) => {
     }
 };
 
+const enrollStudentController = async (req, res) => {
+    const { courseId } = req.params; // Assuming courseId is passed in the request parameters
+
+    try {
+        await enrollStudent(courseId);
+        res.status(200).json({ message: 'Student enrolled successfully' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
 // Controller function to get all pending courses
 const getPendingCoursesController = async (req, res) => {
     try {
@@ -97,6 +117,7 @@ module.exports = {
     getAllCoursesController,
     getCourseByIdController,
     createCourseController,
+    enrollStudentController,
     updateCourseController,
     deleteCourseController,
     approveCourseController,

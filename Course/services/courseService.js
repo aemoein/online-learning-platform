@@ -71,6 +71,19 @@ const approveCourse = async (id) => {
     }
 };
 
+const enrollStudent = async (id) => {
+    const course = await Course.findById(id);
+    if (!course) {
+        throw new Error('Course not found');
+    }
+    if (course.enrolledStudents < course.capacity) {
+        course.enrolledStudents += 1; 
+        await course.save();
+    } else {
+        throw new Error('Capacity is full');
+    }
+};
+
 // Function to get only pending courses
 const getPendingCourses = async () => {
     try {
@@ -96,6 +109,7 @@ module.exports = {
     updateCourse,
     deleteCourse,
     approveCourse,
+    enrollStudent,
     getPendingCourses,
     getApprovedCourses
 };

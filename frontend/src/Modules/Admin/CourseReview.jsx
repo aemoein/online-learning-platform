@@ -8,7 +8,7 @@ import Navbar from '../../Components/Navbar/AdminNavbar';
 const CourseReview = () => {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
-
+  
   const token = localStorage.getItem('token');
   const axiosInstance = axios.create({
     baseURL: 'http://localhost:3002/',
@@ -16,25 +16,55 @@ const CourseReview = () => {
       'Authorization': `Bearer ${token}`
     }
   });
-
+  
   useEffect(() => {
     if (!token) {
       console.log('Token not found in LocalStorage');
       navigate('/');
+      return;
     }
-
+    
     const fetchPendingCourses = async () => {
       try {
         const response = await axiosInstance.get('admin/courses/pending');
-        setCourses(response.data);
+        const coursesData = response.data;
+
+        // Fetch instructor details for each course
+        const coursesWithInstructors = await Promise.all(
+          coursesData.map(async (course) => {
+            try {
+              // Fetch instructor profile
+              const instructorResponse = await axiosInstance.get(
+                `http://localhost:3001/users/instructor/${course.instructor}`, // Adjusted URL
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              
+              const instructorData = instructorResponse.data;
+              return {
+                ...course,
+                instructorName: instructorData.name,
+                instructorAffiliation: instructorData.affiliation
+              };
+            } catch (error) {
+              console.error(`Error fetching instructor for course ${course._id}:`, error);
+              return { ...course, instructorName: 'N/A', instructorAffiliation: 'N/A' };
+            }
+          })
+        );
+        
+        setCourses(coursesWithInstructors);
       } catch (error) {
         console.error('Error fetching pending courses:', error);
       }
     };
-
+    
     fetchPendingCourses();
   }, [navigate, token, axiosInstance]);
-
+  
   const handleApprove = async (id) => {
     try {
       await axiosInstance.put(`admin/courses/${id}/approve`);
@@ -43,7 +73,7 @@ const CourseReview = () => {
       console.error('Error approving course:', error);
     }
   };
-
+  
   const handleReject = async (id) => {
     try {
       await axiosInstance.delete(`admin/courses/${id}`);
@@ -52,7 +82,7 @@ const CourseReview = () => {
       console.error('Error rejecting course:', error);
     }
   };
-
+  
   return (
     <>
       <Navbar />
@@ -75,6 +105,8 @@ const CourseReview = () => {
                 status={course.status}
                 content={course.content}
                 imageUrl={course.imageUrl}
+                instructorName={course.instructorName}
+                instructorAffiliation={course.instructorAffiliation}
                 onApprove={() => handleApprove(course._id)}
                 onReject={() => handleReject(course._id)}
               />

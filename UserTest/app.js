@@ -18,7 +18,6 @@ const logRequests = (req, res, next) => {
     next(); // Call next to pass control to the next middleware function
   };
   
-  // Register the middleware function
   app.use(logRequests);
 
 console.log('MongoDB local URI:', config.mongoURIS);

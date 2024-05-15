@@ -54,6 +54,40 @@ const userService = {
     }
   },
 
+  async getInstructor(userId) {
+    try {
+      const user = await User.findById(userId);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      if (user.role !== 'instructor') {
+        throw new Error('User is not an instructor');
+      }
+      return user;
+    } catch (error) {
+      throw new Error('Error getting user profile: ' + error.message);
+    }
+  },  
+
+  async getStudent(userId) {
+    try {
+      console.log('Arrived')
+      const user = await User.findById(userId);
+      if (!user) {
+        console.log('No user')
+        throw new Error('User not found');
+      }
+      if (user.role !== 'student') {
+        console.log('wrong role')
+        throw new Error('User is not an instructor');
+      }
+      return user;
+    } catch (error) {
+      console.log('Error')
+      throw new Error('Error getting user profile: ' + error.message);
+    }
+  },  
+
   async updateUserProfile(userId, newData) {
     try {
       const updatedUser = await User.findByIdAndUpdate(userId, newData, { new: true });

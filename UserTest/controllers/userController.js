@@ -24,7 +24,7 @@ const userController = {
 
   // Get user profile
   async getUserProfile(req, res) {
-    const userId = req.userId; // Extracted from JWT token in middleware
+    const userId = req.userId;
     try {
       const userProfile = await userService.getUserProfile(userId);
       res.status(200).json(userProfile);
@@ -32,6 +32,32 @@ const userController = {
       res.status(404).json({ error: error.message });
     }
   },
+
+  async getInstructorProfile(req, res) {
+    const userId = req.params.userId; // Accessing the user ID from request parameters
+    try {
+      const instructorProfile = await userService.getInstructor(userId);
+      if (!instructorProfile) {
+        return res.status(404).json({ error: 'Instructor profile not found' });
+      }
+      res.status(200).json(instructorProfile);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },  
+
+  async getStudentProfile(req, res) {
+    const userId = req.params.userId; // Accessing the user ID from request parameters
+    try {
+      const studentProfile = await userService.getStudent(userId);
+      if (!studentProfile) {
+        return res.status(404).json({ error: 'Student profile not found' });
+      }
+      res.status(200).json(studentProfile);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },  
 
   // Update user profile
   async updateUserProfile(req, res) {

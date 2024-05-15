@@ -33,6 +33,8 @@ mkdir src
 mkdir src/routes
 mkdir src/controllers
 mkdir src/models
+mkdir src/middleware
+mkdir src/config
 
 # Create an example .env file with specified data
 cat <<EOT > .env
@@ -47,6 +49,57 @@ PORT=3002
 JWT_SECRET=eH6Q2Ji3Vn3bT6Tn4GfDn7Sp2Ue7Nz3Rj8Sd1Ws5Fg9Uk0Li2Ym5Gk3Yb7Ja5S
 EOT
 
+# Create middleware files
+cat <<EOT > src/middleware/authMiddleware.js
+// authMiddleware.js
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
+
+const authMiddleware = (req, res, next) => {
+    // Code for authentication middleware
+};
+
+module.exports = authMiddleware;
+EOT
+
+cat <<EOT > src/middleware/errorMiddleware.js
+// errorMiddleware.js
+const errorMiddleware = (err, req, res, next) => {
+    // Code for error handling middleware
+};
+
+module.exports = errorMiddleware;
+EOT
+
+cat <<EOT > src/middleware/extractToken.js
+// extractToken.js
+const jwt = require('jsonwebtoken');
+
+const extractToken = (req, res, next) => {
+    // Code to extract JWT token from request
+};
+
+module.exports = extractToken;
+EOT
+
+# Create config file
+cat <<EOT > src/config/config.js
+// config.js
+require('dotenv').config();
+
+module.exports = {
+    // MongoDB connection URLs
+    mongoURIS: process.env.MONGO_URI_LOCAL,
+    mongoURI: process.env.MONGO_URI_REMOTE,
+
+    // Port for the server to listen on
+    port: process.env.PORT || 3001,
+
+    // JWT Secret Key
+    jwtSecret: process.env.JWT_SECRET
+};
+EOT
+
 # Create a basic server.js file
 cat <<EOT > src/server.js
 const express = require('express');
@@ -58,6 +111,10 @@ const morgan = require('morgan');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const authMiddleware = require('./middleware/authMiddleware');
+const errorMiddleware = require('./middleware/errorMiddleware');
+const extractToken = require('./middleware/extractToken');
+const config = require('./config/config');
 
 // Load environment variables
 dotenv.config();
@@ -69,14 +126,17 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(session({
-    secret: process.env.JWT_SECRET,
+    secret: config.jwtSecret,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Use secure: true in production with HTTPS
 }));
+app.use(extractToken);
+app.use(authMiddleware);
+app.use(errorMiddleware);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI_LOCAL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(config.mongoURIS, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
 
@@ -86,7 +146,7 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = config.port;
 app.listen(PORT, () => {
     console.log(\`Server is running on port \${PORT}\`);
 });

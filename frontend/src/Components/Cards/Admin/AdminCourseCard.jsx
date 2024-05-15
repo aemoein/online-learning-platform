@@ -13,6 +13,8 @@ const AdminCourseCard = ({
   content,
   width,
   imageUrl,
+  instructorName,
+  instructorAffiliation,
   onApprove,
   onReject,
 }) => {
@@ -21,7 +23,7 @@ const AdminCourseCard = ({
       sx={{
         position: 'relative',
         width: width ? width : '93vw',
-        height: 250,
+        height: 300,
         borderRadius: '10px',
         overflow: 'hidden',
         boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
@@ -68,6 +70,35 @@ const AdminCourseCard = ({
           }}>
           {name}
         </Typography>
+        <Box 
+            sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                //marginTop: '10px',
+                maxWidth: '87vw'
+            }}
+        >
+            <Typography
+            sx={{
+                fontFamily: 'Poppins',
+                fontWeight: '900',
+                width: 'fit-content',
+                fontSize: 16,
+                color: '#000'
+            }}>
+            Instructor: {instructorName}
+            </Typography>
+            <Typography
+            sx={{
+                fontFamily: 'Poppins',
+                fontWeight: '900',
+                width: 'fit-content',
+                fontSize: 16,
+                color: '#000'
+            }}>
+            Affiliation: {instructorAffiliation}
+            </Typography>
+        </Box>
         <Typography
           sx={{
             fontFamily: 'Poppins',

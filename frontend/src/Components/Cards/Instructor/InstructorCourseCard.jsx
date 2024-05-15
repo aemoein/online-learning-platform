@@ -164,7 +164,6 @@ const InstructorCourseCard = ({
                 sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    //marginTop: '10px',
                     maxWidth: '87vw'
                 }}
             >

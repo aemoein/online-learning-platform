@@ -23,27 +23,66 @@ const AllCourses = () => {
       navigate('/');
     }
 
-    const fetchPendingCourses = async () => {
+    const fetchCourses = async () => {
       try {
         const response = await axiosInstance.get('student/courses/');
-        setCourses(response.data);
-        console.log(courses);
+        const coursesData = response.data;
+
+        // Fetch instructor details for each course
+        const coursesWithInstructors = await Promise.all(
+          coursesData.map(async (course) => {
+            try {
+              // Fetch instructor profile
+              const instructorResponse = await axiosInstance.get(
+                `http://localhost:3001/users/instructor/${course.instructor}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              
+              const instructorData = instructorResponse.data;
+              return {
+                ...course,
+                instructorName: instructorData.name,
+                instructorAffiliation: instructorData.affiliation
+              };
+            } catch (error) {
+              console.error(`Error fetching instructor for course ${course._id}:`, error);
+              return { ...course, instructorName: 'N/A', instructorAffiliation: 'N/A' };
+            }
+          })
+        );
+        
+        setCourses(coursesWithInstructors);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('Error fetching pending courses:', error);
       }
     };
 
-    fetchPendingCourses();
+    fetchCourses();
   }, [navigate, token, axiosInstance]);
 
-  const handleEnroll = async (id) => {
+  const handleEnroll = async (course) => {
     try {
-      await axiosInstance.put(`student/enroll/${id}`);
-      setCourses(courses.filter(course => course._id !== id));
+      const enrollResponse = await axiosInstance.post(
+        `http://localhost:3003/enrollment/student/create/`,
+        {
+          courseId: course._id,
+          instructorId: course.instructor
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCourses(courses.filter(c => c._id !== course._id));
     } catch (error) {
       console.error('Error enrolling in the course:', error);
     }
-  };
+  };  
 
   return (
     <>
@@ -51,23 +90,25 @@ const AllCourses = () => {
       <Box sx={{ height: 40 }} />
       <Box sx={{ padding: '2rem' }}>
         <Typography variant="h4" sx={{ marginBottom: '2rem', fontFamily: 'Poppins', fontWeight: '900' }}>
-          Pending Courses
+            Courses
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {courses.map(course => (
             <StudentCourseCard
-              key={course._id}
-              name={course.name}
-              duration={course.duration}
-              category={course.category}
-              rating={course.rating}
-              capacity={course.capacity}
-              enrolledStudents={course.enrolledStudents}
-              reviews={course.reviews}
-              status={course.status}
-              content={course.content}
-              imageUrl={course.imageUrl}
-              onApprove={() => handleEnroll(course._id)}
+                key={course._id}
+                name={course.name}
+                duration={course.duration}
+                category={course.category}
+                rating={course.rating}
+                capacity={course.capacity}
+                enrolledStudents={course.enrolledStudents}
+                reviews={course.reviews}
+                status={course.status}
+                content={course.content}
+                imageUrl={course.imageUrl}
+                instructorName={course.instructorName}
+                instructorAffiliation={course.instructorAffiliation}
+                onApprove={() => handleEnroll(course)}
             />
           ))}
         </Box>
