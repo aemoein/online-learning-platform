@@ -1,18 +1,22 @@
 package com.example.userservice.resources;
 
+import com.example.userservice.controller.adminController;
 import com.example.userservice.controller.userController;
 import com.example.userservice.entity.UserEntity;
 import jakarta.ejb.EJB;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
+
 
 @Path("/users")
 public class userService {
 
     @EJB
     private userController userController;
+
+    @EJB
+    private adminController adminController;
 
     @POST
     @Path("/signup")
@@ -42,8 +46,14 @@ public class userService {
     @Path("/update")
     @Consumes("application/json")
     @Produces("application/json")
-    public Response updateUser(UserEntity user) {
-        UserEntity existingUser = userController.findById(user.getId());
+    public Response updateUser(@HeaderParam("username") String username,UserEntity user) {
+
+        UserEntity requestingUser = adminController.findByUsername(username);
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
+            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
+        }
+
+        UserEntity existingUser = adminController.findById(user.getId());
         if (existingUser == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }
@@ -62,8 +72,9 @@ public class userService {
         }
         existingUser.setAffiliation(user.getAffiliation());
         existingUser.setBio(user.getBio());
+        existingUser.setYearsOfExperience(user.getYearsOfExperience());
 
-        userController.update(existingUser);
+        adminController.update(existingUser);
         return Response.ok(existingUser).build();
     }
 
@@ -71,18 +82,44 @@ public class userService {
     @Path("/delete/{id}")
     @Produces("application/json")
     public Response deleteUser(@HeaderParam("username") String username, @PathParam("id") Long id) {
-        UserEntity requestingUser = userController.findByUsername(username);
+        UserEntity requestingUser = adminController.findByUsername(username);
         if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
         }
 
-        UserEntity userToDelete = userController.findById(id);
+        UserEntity userToDelete = adminController.findById(id);
         if (userToDelete == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }
 
-        userController.delete(userToDelete);
+        adminController.delete(userToDelete);
         return Response.ok().entity("User deleted successfully").build();
+    }
+
+    @GET
+    @Path("/allUsers")
+    @Produces("application/json")
+    public Response getAllUsers(@HeaderParam("username") String username) {
+        UserEntity requestingUser = adminController.findByUsername(username);
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
+            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
+        }
+
+        List<UserEntity> users = adminController.findAll();
+        return Response.ok(users).build();
+    }
+
+    @GET
+    @Path("/role/{role}")
+    @Produces("application/json")
+    public Response getUsersByRole(@HeaderParam("username") String username, @PathParam("role") UserEntity.Role role) {
+        UserEntity requestingUser = adminController.findByUsername(username);
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
+            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
+        }
+
+        List<UserEntity> users = adminController.findByRole(role);
+        return Response.ok(users).build();
     }
 }
 
