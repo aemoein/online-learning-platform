@@ -25,6 +25,9 @@ public class UserEntity {
     @Column
     private String bio;
 
+    @Column
+    private Integer yearsOfExperience;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -87,5 +90,13 @@ public class UserEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
 }

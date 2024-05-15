@@ -1,20 +1,31 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.entity.UserEntity;
-import com.example.userservice.entity.Users;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
-@Stateless
-public class userController {
+import javax.management.relation.Role;
+import java.util.List;
 
+@Singleton
+public class adminController {
     @PersistenceContext
     private EntityManager em;
 
-    public void save(UserEntity user) {
-        em.persist(user);
+    public void update(UserEntity user) {
+        em.merge(user);
+    }
+    public void delete(UserEntity user) {
+        if (em.contains(user)) {
+            em.remove(user);
+        } else {
+            em.remove(em.merge(user));
+        }
+    }
+    public List<UserEntity> findAll() {
+        return em.createQuery("SELECT u FROM UserEntity u", UserEntity.class).getResultList();
     }
 
     public UserEntity findById(Long id) {
@@ -34,15 +45,10 @@ public class userController {
             return null;
         }
     }
-    public UserEntity findByUsernameAndPassword(String username, String password) {
-        try {
-            return em.createQuery("SELECT u FROM UserEntity u WHERE u.username = :username AND u.password = :password", UserEntity.class)
-                    .setParameter("username", username)
-                    .setParameter("password", password)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
 
+    public List<UserEntity> findByRole(UserEntity.Role role) {
+        return em.createQuery("SELECT u FROM UserEntity u WHERE u.role = :role", UserEntity.class)
+                .setParameter("role", role)
+                .getResultList();
+    }
 }
