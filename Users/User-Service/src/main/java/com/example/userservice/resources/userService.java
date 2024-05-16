@@ -1,10 +1,12 @@
 package com.example.userservice.resources;
 
+import com.example.userservice.controller.JwtTokenBean;
 import com.example.userservice.controller.adminController;
 import com.example.userservice.controller.userController;
 import com.example.userservice.entity.UserEntity;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
@@ -18,6 +20,10 @@ public class userService {
     @EJB
     private adminController adminController;
 
+    @EJB
+    private JwtTokenBean jwtTokenBean;
+
+
     @POST
     @Path("/signup")
     @Consumes("application/json")
@@ -30,17 +36,33 @@ public class userService {
         return Response.status(Response.Status.CREATED).entity(user).build();
     }
 
-    @POST
-    @Path("/login")
-    @Consumes("application/json")
-    @Produces("application/json")
-    public Response login(UserEntity user) {
-        UserEntity foundUser = userController.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-        if (foundUser == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid username or password").build();
-        }
-        return Response.ok(foundUser).build();
+//    @POST
+//    @Path("/login")
+//    @Consumes("application/json")
+//    @Produces("application/json")
+//    public Response login(UserEntity user) {
+//        UserEntity foundUser = userController.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+//        if (foundUser == null) {
+//            return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid username or password").build();
+//        }
+//        return Response.ok(foundUser).build();
+//    }
+@POST
+@Path("/login")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response login(UserEntity user) {
+    UserEntity foundUser = userController.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+    if (foundUser == null) {
+        return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid username or password").build();
     }
+
+    // Generate JWT token
+    String token = jwtTokenBean.generateToken(foundUser.getId(), foundUser.getRole());
+
+    // Create a response entity to include the token
+    return Response.ok().header("Authorization", "Bearer " + token).build();
+}
 
     @PUT
     @Path("/update")
