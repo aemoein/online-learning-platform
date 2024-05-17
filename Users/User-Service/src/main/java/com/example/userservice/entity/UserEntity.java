@@ -6,9 +6,9 @@ import jakarta.persistence.*;
 @Table(name = "user")
 public class UserEntity {
     public enum Role {
-        ADMIN,
-        INSTRUCTOR,
-        STUDENT
+        admin,
+        instructor,
+        student
     }
     @Column(nullable = false, unique = true)
     private String username;
