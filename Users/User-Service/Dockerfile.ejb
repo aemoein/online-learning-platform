@@ -1,0 +1,11 @@
+# Use the official WildFly 32.0.0.Final image as the base image
+FROM jboss/wildfly:latest
+
+# Copy your EJB application to the deployments directory in WildFly
+COPY target/User-Service-1.0-SNAPSHOT.war /opt/jboss/wildfly/standalone/deployments/
+
+# 8080 is the default HTTP port, 9990 is the management port
+EXPOSE 8080 9990
+
+# Start WildFly in standalone mode
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]

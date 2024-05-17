@@ -1,7 +1,6 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.entity.UserEntity;
-import com.example.userservice.entity.Users;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
