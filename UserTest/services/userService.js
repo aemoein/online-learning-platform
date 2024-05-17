@@ -121,12 +121,13 @@ const userService = {
       if (!userToRemove) {
         throw new Error('User to remove not found');
       }
-      await User.findByIdAndRemove(userToRemoveId);
+      await User.findOneAndDelete({ _id: userToRemoveId });
       return 'User removed successfully';
     } catch (error) {
-      throw new Error('Error removing user');
+      console.error('Error removing user:', error.message);
+      throw error;
     }
-  }
+  }  
 };
 
 module.exports = userService;

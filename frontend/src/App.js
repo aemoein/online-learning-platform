@@ -6,6 +6,7 @@ import SignUp from './Modules/System/SignUp';
 import StudentHome from './Modules/Student/StudentHome';
 import StudentCourses from './Modules/Student/MyCourses';
 import AdminHome from './Modules/Admin/AdminHome';
+import UserManagement from './Modules/Admin/UserManagement';
 import InstructorHome from './Modules/Instructor/InstructorHome';
 import InstructorCourses from './Modules/Instructor/InstructorCourses';
 import AllInstructorCourses from './Modules/Instructor/AllCoursesInstructor';
@@ -32,6 +33,7 @@ function App() {
         <Route path="/instructor/courses" element={<InstructorCourses />} />
         <Route path="/instructor/browse" element={<AllInstructorCourses />} />
         <Route path="/admin" element={<AdminHome />} />
+        <Route path="/admin/user" element={<UserManagement />} />
         <Route path="/admin/review/course" element={<CourseReview />} />
       </Routes>
     </Router>
