@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import StudentCourseCard from '../../Components/Cards/Student/StudentCourseCard';
+import MyCourseCard from '../../Components/Cards/Student/MyCoursesCard';
 import { Box, Typography } from '@mui/material';
 import Navbar from '../../Components/Navbar/StudentNavbar';
+import ReviewForm from '../../Components/Forms/ReviewForm';
 
-const AllCourses = () => {
+const StudentCourses = () => {
   const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null); // State to hold selected course
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false); // State to manage ReviewForm visibility
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3002/',
+    baseURL: 'http://localhost:3003/',
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -25,7 +28,7 @@ const AllCourses = () => {
 
     const fetchCourses = async () => {
       try {
-        const response = await axiosInstance.get('student/courses/');
+        const response = await axiosInstance.get('/enrollment/student/');
         const coursesData = response.data;
 
         // Fetch instructor details for each course
@@ -60,7 +63,7 @@ const AllCourses = () => {
               try {
                 // Fetch course details
                 const courseResponse = await axiosInstance.get(
-                  `http://localhost:3004/review/course/${course._id}/rating`,
+                  `http://localhost:3004/review/course/${course.course}/rating`,
                   {
                     headers: {
                       Authorization: `Bearer ${token}`,
@@ -81,34 +84,56 @@ const AllCourses = () => {
             })
         );
         
-        setCourses(coursesWithRating);
+        // Fetch course details for each course
+        const coursesWithData = await Promise.all(
+            coursesWithRating.map(async (course) => {
+            try {
+              // Fetch course details
+              const courseResponse = await axiosInstance.get(
+                `http://localhost:3002/student/courses/${course.course}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              
+              const courseData = courseResponse.data;
+              return {
+                ...course,
+                name: courseData.name,
+                duration: courseData.duration,
+                category: courseData.category,
+                capacity: courseData.capacity,
+                enrolledStudents: courseData.enrolledStudents,
+                reviews: courseData.reviews,
+                status: courseData.status,
+                content: courseData.content
+              };
+            } catch (error) {
+              console.error(`Error fetching course data for course ${course._id}:`, error);
+              return { ...course }; // Return original course data if fetching fails
+            }
+          })
+        );
+        
+        setCourses(coursesWithData);
       } catch (error) {
-        console.error('Error fetching pending courses:', error);
+        console.error('Error fetching courses:', error);
       }
     };
 
     fetchCourses();
   }, [navigate, token, axiosInstance]);
 
-  const handleEnroll = async (course) => {
-    try {
-      const enrollResponse = await axiosInstance.post(
-        `http://localhost:3003/enrollment/student/create/`,
-        {
-          courseId: course._id,
-          instructorId: course.instructor
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setCourses(courses.filter(c => c._id !== course._id));
-    } catch (error) {
-      console.error('Error enrolling in the course:', error);
-    }
+  const handleReview = (course) => {
+    setSelectedCourse(course);
+    setIsReviewFormOpen(true);
   };  
+
+  const handleCloseReviewForm = () => {
+    setIsReviewFormOpen(false);
+  };
 
   return (
     <>
@@ -119,28 +144,29 @@ const AllCourses = () => {
             Courses
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {courses.map(course => (
-            <StudentCourseCard
-                key={course._id}
-                name={course.name}
-                duration={course.duration}
-                category={course.category}
-                rating={course.rating}
-                capacity={course.capacity}
-                enrolledStudents={course.enrolledStudents}
-                reviews={course.reviews}
-                status={course.status}
-                content={course.content}
-                imageUrl={course.imageUrl}
-                instructorName={course.instructorName}
-                instructorAffiliation={course.instructorAffiliation}
-                onApprove={() => handleEnroll(course)}
-            />
-          ))}
+            {courses.map(course => (
+                <MyCourseCard
+                    key={course._id}
+                    name={course.name}
+                    duration={course.duration}
+                    category={course.category}
+                    rating={course.rating}
+                    capacity={course.capacity}
+                    enrolledStudents={course.enrolledStudents}
+                    reviews={course.reviews}
+                    status={course.status}
+                    content={course.content}
+                    imageUrl={course.imageUrl}
+                    instructorName={course.instructorName}
+                    instructorAffiliation={course.instructorAffiliation}
+                    onApprove={() => handleReview(course)}
+                />
+            ))}
+            {selectedCourse && isReviewFormOpen && <ReviewForm courseId={selectedCourse.course} onClose={handleCloseReviewForm} />}
         </Box>
       </Box>
     </>
   );
 };
 
-export default AllCourses;
+export default StudentCourses;

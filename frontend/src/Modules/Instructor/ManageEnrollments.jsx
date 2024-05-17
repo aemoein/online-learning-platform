@@ -24,7 +24,7 @@ const ManageEnrollments = () => {
       return;
     }
   
-    const fetchPendingenrollments = async () => {
+    const fetchPendingEnrollments = async () => {
       try {
         const response = await axiosInstance.get('enrollment/instructor/pending');
         const enrollmentsData = response.data;
@@ -32,18 +32,10 @@ const ManageEnrollments = () => {
         const enrollmentsWithData = await Promise.all(
           enrollmentsData.map(async (enrollment) => {
             try {
-              const studentResponse = await axiosInstance.get(`http://localhost:3001/users/student/${enrollment.student}`, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              });
+              const studentResponse = await axiosInstance.get(`http://localhost:3001/users/student/${enrollment.student}`);
               const studentData = studentResponse.data;
   
-              const courseResponse = await axiosInstance.get(`http://localhost:3002/instructor/courses/${enrollment.course}`, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              });
+              const courseResponse = await axiosInstance.get(`http://localhost:3002/instructor/courses/${enrollment.course}`);
               const courseData = courseResponse.data;
   
               return {
@@ -75,20 +67,30 @@ const ManageEnrollments = () => {
       }
     };
   
-    fetchPendingenrollments();
+    fetchPendingEnrollments();
   }, [navigate, token, axiosInstance]);
   
-  const handleApproveOrReject = async (id, action) => {
+  const handleApprove = async (id) => {
     try {
-      await axiosInstance.put(`enrollment/instructor/${action}/${id}`);
-      setEnrollments(enrollments => enrollments.filter(enrollment => enrollment._id !== id));
+      const enrollment = enrollments.find(enrollment => enrollment._id === id);
+      if (enrollment) {
+        await axiosInstance.put(`enrollment/instructor/accept/${id}`);
+        await axiosInstance.put(`http://localhost:3002/instructor/courses/enroll/${enrollment.course}`);
+        setEnrollments(enrollments => enrollments.filter(enrollment => enrollment._id !== id));
+      }
     } catch (error) {
-      console.error(`Error ${action === 'accept' ? 'accept' : 'reject'} enrollment:`, error);
+      console.error('Error accepting enrollment:', error);
     }
   };
   
-  const handleApprove = (id) => handleApproveOrReject(id, 'accept');
-  const handleReject = (id) => handleApproveOrReject(id, 'reject');  
+  const handleReject = async (id) => {
+    try {
+      await axiosInstance.put(`enrollment/instructor/reject/${id}`);
+      setEnrollments(enrollments => enrollments.filter(enrollment => enrollment._id !== id));
+    } catch (error) {
+      console.error('Error rejecting enrollment:', error);
+    }
+  };  
   
   return (
     <>

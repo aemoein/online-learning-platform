@@ -4,6 +4,7 @@ const {
     createCourse,
     updateCourse,
     deleteCourse,
+    enrollStudent,
     approveCourse,
     getPendingCourses,
     getApprovedCourses,

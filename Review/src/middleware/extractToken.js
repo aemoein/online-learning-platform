@@ -1,8 +1,11 @@
-// extractToken.js
-const jwt = require('jsonwebtoken');
-
 const extractToken = (req, res, next) => {
-    // Code to extract JWT token from request
-};
-
-module.exports = extractToken;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.split(' ')[1];
+        console.log('Token extracted:', token);
+        req.token = token;
+    }
+    next();
+  };
+  
+  module.exports = extractToken;
