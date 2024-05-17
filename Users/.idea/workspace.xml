@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1eac3a73-d927-44b3-9e9c-66256af1286e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Course/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Course/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Course/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Course/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Course/controllers/courseController.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Course/controllers/courseController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Course/models/Course.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Course/models/Course.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Course/routes/courseRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Course/routes/courseRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Course/services/courseService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Course/services/courseService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/Components/Navbar/StudentNavbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/Components/Navbar/StudentNavbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/Modules/Student/AllCourses.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/Modules/Student/AllCourses.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +30,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ahmedelsayed/Documents/GitHub/online-learning-platform/Users&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -118,19 +115,6 @@
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <module name="Users" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <method v="2" />
-    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -149,6 +133,8 @@
       <updated>1715526415079</updated>
       <workItem from="1715526417250" duration="183000" />
       <workItem from="1715538102230" duration="15000" />
+      <workItem from="1715974623080" duration="23000" />
+      <workItem from="1715974648132" duration="11000" />
     </task>
     <servers />
   </component>
