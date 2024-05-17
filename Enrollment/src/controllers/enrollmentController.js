@@ -82,7 +82,9 @@ const getPendingEnrollments = async (req, res) => {
 // Controller for getAllEnrollments
 const getAllEnrollments = async (req, res) => {
     try {
-        const enrollments = await getAllEnrollments();
+        const userId = req.userId;
+        const role = req.role;
+        const enrollments = await enrollmentService.getAllEnrollments(userId, role);
         res.json(enrollments);
     } catch (error) {
         res.status(500).json({ error: 'Could not get all enrollments' });

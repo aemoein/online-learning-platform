@@ -54,8 +54,34 @@ const AllCourses = () => {
             }
           })
         );
+
+        const coursesWithRating = await Promise.all(
+            coursesWithInstructors.map(async (course) => {
+              try {
+                // Fetch course details
+                const courseResponse = await axiosInstance.get(
+                  `http://localhost:3004/review/course/${course._id}/rating`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  }
+                );
+                
+                const courseData = courseResponse.data;
+                console.log(courseData.averageRating)
+                return {
+                  ...course,
+                  rating: courseData.averageRating,
+                };
+              } catch (error) {
+                console.error(`Error fetching course data for course ${course._id}:`, error);
+                return { ...course }; // Return original course data if fetching fails
+              }
+            })
+        );
         
-        setCourses(coursesWithInstructors);
+        setCourses(coursesWithRating);
       } catch (error) {
         console.error('Error fetching pending courses:', error);
       }

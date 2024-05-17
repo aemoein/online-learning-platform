@@ -83,9 +83,18 @@ async function getPendingEnrollments(instructorId) {
     }
 }
 
-async function getAllEnrollments() {
+async function getAllEnrollments(userId, role) {
     try {
-        const enrollments = await Enrollment.find();
+        let query = {};
+        if (role === 'student') {
+            query = { student: userId };
+        } else if (role === 'instructor') {
+            query = { instructor: userId };
+        } else {
+            throw new Error('Invalid role specified');
+        }
+        
+        const enrollments = await Enrollment.find(query);
         return enrollments;
     } catch (error) {
         throw new Error('Could not get all enrollments: ' + error.message);

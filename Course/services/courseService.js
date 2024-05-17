@@ -9,6 +9,15 @@ const getAllCourses = async () => {
     }
 };
 
+// Function to get courses by instructor
+const getInstructorCourses = async (instructorId) => {
+    try {
+        return await Course.find({ instructor: instructorId });
+    } catch (error) {
+        throw new Error('Could not get instructor enrollments: ' + error.message);
+    }
+};
+
 // Function to get a course by ID
 const getCourseById = async (id) => {
     try {
@@ -71,16 +80,21 @@ const approveCourse = async (id) => {
     }
 };
 
+// Function to enroll a student in a course by ID
 const enrollStudent = async (id) => {
-    const course = await Course.findById(id);
-    if (!course) {
-        throw new Error('Course not found');
-    }
-    if (course.enrolledStudents < course.capacity) {
-        course.enrolledStudents += 1; 
-        await course.save();
-    } else {
-        throw new Error('Capacity is full');
+    try {
+        const course = await Course.findById(id);
+        if (!course) {
+            throw new Error('Course not found');
+        }
+        if (course.enrolledStudents < course.capacity) {
+            course.enrolledStudents += 1; 
+            return await course.save();
+        } else {
+            throw new Error('Capacity is full');
+        }
+    } catch (error) {
+        throw new Error(`Failed to enroll student: ${error.message}`);
     }
 };
 
@@ -111,5 +125,6 @@ module.exports = {
     approveCourse,
     enrollStudent,
     getPendingCourses,
-    getApprovedCourses
+    getApprovedCourses,
+    getInstructorCourses
 };
