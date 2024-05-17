@@ -26,7 +26,7 @@ async function getCourseRating(req, res) {
 }
 
 async function getStudentReviews(req, res) {
-    const { studentId } = req.userId;
+    const studentId = req.userId;
 
     try {
         const reviews = await reviewService.getStudentReviews(studentId);
@@ -37,7 +37,7 @@ async function getStudentReviews(req, res) {
 }
 
 async function getCourseReviews(req, res) {
-    const { courseId } = req.params.courseId;
+    const courseId = req.params.courseId;
 
     try {
         const reviews = await reviewService.getCourseReviews(courseId);

@@ -13,6 +13,7 @@ import ManageEnrollments from './Modules/Instructor/ManageEnrollments';
 import CreateCourse from './Modules/Instructor/CreateCourse';
 import CourseReview from './Modules/Admin/CourseReview';
 import AllCourses from './Modules/Student/AllCourses';
+import Notifications from './Modules/Student/Notifications';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/student" element={<StudentHome />} />
         <Route path="/student/courses" element={<AllCourses />} />
         <Route path="/student/my-courses" element={<StudentCourses />} />
+        <Route path="/student/notifications" element={<Notifications />} />
         <Route path="/instructor" element={<InstructorHome />} />
         <Route path="/instructor/create-course" element={<CreateCourse />} />
         <Route path="/instructor/enrollments" element={<ManageEnrollments />} />

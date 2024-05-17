@@ -12,6 +12,7 @@ const extractToken = require('./src/middleware/extractToken');
 const config = require('./src/config/config');
 const studentRoutes = require('./src/routes/studentRoutes');
 const instructorRoutes = require('./src/routes/instructorRoutes');
+const notificationRoutes = require('./src/routes/notificationRoutes');
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ mongoose.connect(config.mongoURI)
 
 app.use('/enrollment/student', verifyTokenAndRole('student'), studentRoutes);
 app.use('/enrollment/instructor', verifyTokenAndRole('instructor'), instructorRoutes);
+app.use('/notifications', verifyTokenAndRole('student'), notificationRoutes);
 
 // Handle invalid routes
 app.use((req, res, next) => {

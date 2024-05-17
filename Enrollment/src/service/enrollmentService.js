@@ -1,4 +1,5 @@
 const Enrollment = require('../models/Enrollment');
+const notificationService = require('./notificationService')
 
 // Function to create a new enrollment
 async function newEnrollment(courseId, studentId, instructorId) {
@@ -34,6 +35,11 @@ async function acceptEnrollment(enrollmentId) {
     const updatedEnrollment = await Enrollment.findByIdAndUpdate(enrollmentId, { status: 'accepted' }, { new: true });
     if (!updatedEnrollment) {
       throw new Error('Enrollment not found');
+    } else {
+        const studentId = updatedEnrollment.student;
+        const courseId = updatedEnrollment.course;
+        const status = updatedEnrollment.status;
+        await notificationService.saveNotification(studentId, courseId, status); // Here, await added
     }
     return updatedEnrollment;
   } catch (error) {
@@ -41,12 +47,16 @@ async function acceptEnrollment(enrollmentId) {
   }
 }
 
-// Function to reject enrollment by ID
 async function rejectEnrollment(enrollmentId) {
   try {
     const updatedEnrollment = await Enrollment.findByIdAndUpdate(enrollmentId, { status: 'rejected' }, { new: true });
     if (!updatedEnrollment) {
       throw new Error('Enrollment not found');
+    } else {
+        const studentId = updatedEnrollment.student;
+        const courseId = updatedEnrollment.course;
+        const status = updatedEnrollment.status;
+        await notificationService.saveNotification(studentId, courseId, status); // Here, await added
     }
     return updatedEnrollment;
   } catch (error) {
