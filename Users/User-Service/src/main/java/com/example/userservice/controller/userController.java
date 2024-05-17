@@ -33,10 +33,10 @@ public class userController {
             return null;
         }
     }
-    public UserEntity findByUsernameAndPassword(String username, String password) {
+    public UserEntity findByUsernameAndPassword(String email, String password) {
         try {
-            return em.createQuery("SELECT u FROM UserEntity u WHERE u.username = :username AND u.password = :password", UserEntity.class)
-                    .setParameter("username", username)
+            return em.createQuery("SELECT u FROM UserEntity u WHERE u.email = :email AND u.password = :password", UserEntity.class)
+                    .setParameter("email", email)
                     .setParameter("password", password)
                     .getSingleResult();
         } catch (NoResultException e) {

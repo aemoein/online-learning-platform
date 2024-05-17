@@ -11,4 +11,4 @@ COPY standalone.xml /opt/jboss/wildfly/standalone/configuration/standalone.xml
 EXPOSE 8080 9990
 
 # Define the entry point
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+CMD ["/opt/jboss/wildfly/bin/standalone.bat", "-b", "0.0.0.0"]
