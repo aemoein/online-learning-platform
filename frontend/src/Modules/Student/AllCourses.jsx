@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import StudentCourseCard from '../../Components/Cards/Student/StudentCourseCard';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, TextField } from '@mui/material';
 import Navbar from '../../Components/Navbar/StudentNavbar';
 
 const AllCourses = () => {
   const [courses, setCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
@@ -82,6 +84,7 @@ const AllCourses = () => {
         );
         
         setCourses(coursesWithRating);
+        setFilteredCourses(coursesWithRating);
       } catch (error) {
         console.error('Error fetching pending courses:', error);
       }
@@ -105,10 +108,20 @@ const AllCourses = () => {
         }
       );
       setCourses(courses.filter(c => c._id !== course._id));
+      setFilteredCourses(filteredCourses.filter(c => c._id !== course._id));
     } catch (error) {
       console.error('Error enrolling in the course:', error);
     }
   };  
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const filtered = courses.filter(course =>
+      course.name.toLowerCase().includes(query.toLowerCase()) ||
+      course.category.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredCourses(filtered);
+  };
 
   return (
     <>
@@ -118,8 +131,16 @@ const AllCourses = () => {
         <Typography variant="h4" sx={{ marginBottom: '2rem', fontFamily: 'Poppins', fontWeight: '900' }}>
             Courses
         </Typography>
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          fullWidth
+          sx={{ marginBottom: '1rem' }}
+        />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {courses.map(course => (
+          {filteredCourses.map(course => (
             <StudentCourseCard
                 key={course._id}
                 name={course.name}
