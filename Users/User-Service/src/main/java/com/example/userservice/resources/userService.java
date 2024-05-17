@@ -35,7 +35,7 @@ public class userService {
         userController.save(user);
         return Response.status(Response.Status.CREATED).entity(user).build();
     }
-
+//This a login function does not use token.
 //    @POST
 //    @Path("/login")
 //    @Consumes("application/json")
@@ -47,22 +47,22 @@ public class userService {
 //        }
 //        return Response.ok(foundUser).build();
 //    }
-@POST
-@Path("/login")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public Response login(UserEntity user) {
-    UserEntity foundUser = userController.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-    if (foundUser == null) {
-        return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid username or password").build();
-    }
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(UserEntity user) {
+            UserEntity foundUser = userController.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+            if (foundUser == null) {
+                return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid username or password").build();
+            }
 
-    // Generate JWT token
-    String token = jwtTokenBean.generateToken(foundUser.getId(), foundUser.getRole());
+            // Generate JWT token
+            String token = jwtTokenBean.generateToken(foundUser.getId(), foundUser.getRole());
 
-    // Create a response entity to include the token
-    return Response.ok().header("Authorization", "Bearer " + token).build();
-}
+            // Create a response entity to include the token
+            return Response.ok().header("Authorization", "Bearer " + token).build();
+        }
 
     @PUT
     @Path("/update")
@@ -142,6 +142,63 @@ public Response login(UserEntity user) {
 
         List<UserEntity> users = adminController.findByRole(role);
         return Response.ok(users).build();
+    }
+
+    @GET
+    @Path("/profile/{id}")
+    @Produces("application/json")
+    public Response getUserProfile(@PathParam("id") Long id, @HeaderParam("username") String username) {
+        UserEntity requestingUser = adminController.findByUsername(username);
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
+            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
+        }
+
+        UserEntity user = adminController.findById(id);
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
+        }
+
+        return Response.ok(user).build();
+    }
+
+    @GET
+    @Path("/student/{id}")
+    @Produces("application/json")
+    public Response getStudent(@PathParam("id") Long id, @HeaderParam("username") String username) {
+        UserEntity requestingUser = adminController.findByUsername(username);
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
+            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
+        }
+
+        UserEntity user = adminController.findById(id);
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
+        }
+        if (user.getRole() != UserEntity.Role.STUDENT) {
+            return Response.status(Response.Status.FORBIDDEN).entity("this user is not a student").build();
+        }
+
+        return Response.ok(user).build();
+    }
+
+    @GET
+    @Path("/instructor/{id}")
+    @Produces("application/json")
+    public Response getInstructor(@PathParam("id") Long id, @HeaderParam("username") String username) {
+        UserEntity requestingUser = adminController.findByUsername(username);
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
+            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
+        }
+
+        UserEntity user = adminController.findById(id);
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
+        }
+        if (user.getRole() != UserEntity.Role.INSTRUCTOR) {
+            return Response.status(Response.Status.FORBIDDEN).entity("this user is not an instructor").build();
+        }
+
+        return Response.ok(user).build();
     }
 }
 
