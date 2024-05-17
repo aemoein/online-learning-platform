@@ -7,12 +7,24 @@ const {
     approveCourse,
     getPendingCourses,
     getApprovedCourses,
+    getInstructorCourses,
 } = require('../services/courseService');
 
 // Controller function to get all courses
 const getAllCoursesController = async (req, res) => {
     try {
         const courses = await getAllCourses();
+        res.json(courses);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getInstructorCoursesController = async (req, res) => {
+    try {
+        const instructorId = req.userId;
+        console.log('get enroll: ', instructorId);
+        const courses = await getInstructorCourses(instructorId);
         res.json(courses);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -83,7 +95,7 @@ const approveCourseController = async (req, res) => {
 };
 
 const enrollStudentController = async (req, res) => {
-    const { courseId } = req.params; // Assuming courseId is passed in the request parameters
+    const { courseId } = req.params;
 
     try {
         await enrollStudent(courseId);
@@ -103,11 +115,11 @@ const getPendingCoursesController = async (req, res) => {
     }
 };
 
-// Controller function to get all pending courses
+// Controller function to get all approved courses
 const getApprovedCoursesController = async (req, res) => {
     try {
-        const ApprovedCourses = await getApprovedCourses();
-        res.json(ApprovedCourses);
+        const approvedCourses = await getApprovedCourses();
+        res.json(approvedCourses);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -123,4 +135,5 @@ module.exports = {
     approveCourseController,
     getPendingCoursesController,
     getApprovedCoursesController,
+    getInstructorCoursesController,
 };

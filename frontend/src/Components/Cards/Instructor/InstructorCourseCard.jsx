@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Chip, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const InstructorCourseCard = ({
   name,
@@ -13,15 +13,16 @@ const InstructorCourseCard = ({
   content,
   width,
   imageUrl,
-  onApprove,
-  onReject,
 }) => {
+  const cardHeight = status === 'pending' ? 220 : 280;
+  const statusColor = status === 'pending' ? 'orange' : 'green';
+
   return (
     <Box
       sx={{
         position: 'relative',
         width: width ? width : '93vw',
-        height: 250,
+        height: cardHeight,
         borderRadius: '10px',
         overflow: 'hidden',
         boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
@@ -55,7 +56,6 @@ const InstructorCourseCard = ({
           color: '#fff',
           width: '100%',
           borderRadius: '0 0 10px 10px',
-          //backgroundColor: imageUrl ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
         }}
       >
         <Typography
@@ -68,6 +68,40 @@ const InstructorCourseCard = ({
           }}>
           {name}
         </Typography>
+        <Typography
+          sx={{
+            fontFamily: 'Poppins',
+            fontWeight: '900',
+            width: 'fit-content',
+            fontSize: 20,
+            color: statusColor
+          }}>
+          Status: {status}
+        </Typography>
+        {status !== 'pending' && (
+          <>
+            <Typography
+              sx={{
+                fontFamily: 'Poppins',
+                fontWeight: '900',
+                width: 'fit-content',
+                fontSize: 16,
+                color: '#000'
+              }}>
+              Rating: {rating}
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: 'Poppins',
+                fontWeight: '900',
+                width: 'fit-content',
+                fontSize: 16,
+                color: '#000'
+              }}>
+              Enrolled Students: {enrolledStudents}
+            </Typography>
+          </>
+        )}
         <Typography
           sx={{
             fontFamily: 'Poppins',
@@ -98,30 +132,6 @@ const InstructorCourseCard = ({
           }}>
           Capacity: {capacity}
         </Typography>
-        {status !== 'pending' && ( 
-            <Typography
-                sx={{
-                fontFamily: 'Poppins',
-                fontWeight: '900',
-                width: 'fit-content',
-                fontSize: 16,
-                color: '#000'
-                }}>
-                Rating: {rating}
-            </Typography>
-        )}
-        {status !== 'pending' && ( 
-            <Typography
-             sx={{
-               fontFamily: 'Poppins',
-               fontWeight: '900',
-               width: 'fit-content',
-               fontSize: 16,
-               color: '#000'
-             }}>
-             Enrolled Students: {enrolledStudents}
-           </Typography>
-        )}
         <Typography
           sx={{
             fontFamily: 'Poppins',
@@ -134,56 +144,34 @@ const InstructorCourseCard = ({
           }}>
           {content}
         </Typography>
-        <Typography
-          sx={{
-            fontFamily: 'Poppins',
-            fontWeight: '900',
-            width: 'fit-content',
-            fontSize: '0.8vw',
-            marginTop: '5px'
-          }}>
-          Reviews:
-        </Typography>
-        {reviews && reviews.map((review, index) => (
+        {status !== 'pending' && (
+          <>
             <Typography
+              sx={{
+                fontFamily: 'Poppins',
+                fontWeight: '900',
+                width: 'fit-content',
+                fontSize: '0.8vw',
+                marginTop: '5px'
+              }}>
+              Reviews:
+            </Typography>
+            {reviews && reviews.map((review, index) => (
+              <Typography
                 key={index}
                 sx={{
-                fontFamily: 'Poppins',
-                fontWeight: '400',
-                width: 'fit-content',
-                fontSize: 16,
-                color: '#000',
-                maxWidth: '25vw',
-                marginTop: '2px'
+                  fontFamily: 'Poppins',
+                  fontWeight: '400',
+                  width: 'fit-content',
+                  fontSize: 16,
+                  color: '#000',
+                  maxWidth: '25vw',
+                  marginTop: '2px'
                 }}>
                 - {review}
-            </Typography>
-        ))}
-        {status === 'pending' && (
-            <Box 
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    maxWidth: '87vw'
-                }}
-            >
-                <Button
-                    variant="contained"
-                    color="success"
-                    onClick={onApprove}
-                    sx={{ fontSize: 16, fontFamily:'Poppins', fontWeight: '700' }}
-                    >
-                    Approve
-                </Button>
-                <Button
-                    variant="contained"
-                    color="error"
-                    onClick={onReject}
-                    sx={{ fontSize: 16, fontFamily:'Poppins', fontWeight: '700' }}
-                    >
-                    Reject
-                </Button>
-            </Box>
+              </Typography>
+            ))}
+          </>
         )}
       </Box>
     </Box>
