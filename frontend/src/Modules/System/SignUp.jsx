@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [username, setName] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [affiliation, setAffiliation] = useState('');
@@ -16,7 +16,7 @@ const SignUp = () => {
 
   const handleSignUp = async () => {
     console.log('Data sent to the backend:', {
-      username,
+      name,
       email,
       password,
       affiliation,
@@ -26,8 +26,8 @@ const SignUp = () => {
     });
   
     try {
-      const response = await axios.post('http://localhost:8080/User-Service-1.0-SNAPSHOT/api/users/signup', {
-        username,
+      const response = await axios.post('http://localhost:3001/users/register', {
+        name,
         email,
         password,
         affiliation,
@@ -75,7 +75,7 @@ const SignUp = () => {
           <TextField
             label="Full Name"
             type="text"
-            value={username}
+            value={name}
             onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="normal"

@@ -3,14 +3,14 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: mysql_db
+    container_name: ejbdb
     environment:
       MYSQL_ROOT_PASSWORD: Ah123456789Ah
       MYSQL_DATABASE: users
-      MYSQL_USER: root
+      MYSQL_USER: users
       MYSQL_PASSWORD: Ah123456789Ah
     ports:
-      - "3307:3306" 
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -22,16 +22,16 @@ services:
     ports:
       - "8080:8080"
       - "9990:9990"
-    # volumes:
-    #   - ./standalone.xml:/opt/jboss/wildfly/standalone/configuration/standalone.xml
-    #   - ./target/User-Service-1.0-SNAPSHOT.war:/opt/jboss/wildfly/standalone/deployments/target/User-Service-1.0-SNAPSHOT.war
+    volumes:
+      - ./standalone.xml:/opt/jboss/wildfly/standalone/configuration/standalone.xml
+      - ./your-application.war:/opt/jboss/wildfly/standalone/deployments/your-application.war
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
-      - MYSQL_DATABASE=users
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=Ah123456789Ah
-    command: ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"] # Corrected command
+      - MYSQL_DATABASE=mydatabase
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    command: ["-b", "0.0.0.0"]
 
 volumes:
   mysql_data:
