@@ -52,8 +52,7 @@ public class userService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(UserEntity user) {
-        System.out.println(user);
-            UserEntity foundUser = userController.findByUsernameAndPassword(user.getEmail(), user.getPassword());
+            UserEntity foundUser = userController.findByUsernameAndPassword(user.getUsername(), user.getPassword());
             if (foundUser == null) {
                 return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid username or password").build();
             }
@@ -72,7 +71,7 @@ public class userService {
     public Response updateUser(@HeaderParam("username") String username,UserEntity user) {
 
         UserEntity requestingUser = adminController.findByUsername(username);
-        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
         }
 
@@ -106,7 +105,7 @@ public class userService {
     @Produces("application/json")
     public Response deleteUser(@HeaderParam("username") String username, @PathParam("id") Long id) {
         UserEntity requestingUser = adminController.findByUsername(username);
-        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
         }
 
@@ -124,7 +123,7 @@ public class userService {
     @Produces("application/json")
     public Response getAllUsers(@HeaderParam("username") String username) {
         UserEntity requestingUser = adminController.findByUsername(username);
-        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
         }
 
@@ -137,7 +136,7 @@ public class userService {
     @Produces("application/json")
     public Response getUsersByRole(@HeaderParam("username") String username, @PathParam("role") UserEntity.Role role) {
         UserEntity requestingUser = adminController.findByUsername(username);
-        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
         }
 
@@ -150,7 +149,7 @@ public class userService {
     @Produces("application/json")
     public Response getUserProfile(@PathParam("id") Long id, @HeaderParam("username") String username) {
         UserEntity requestingUser = adminController.findByUsername(username);
-        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
         }
 
@@ -167,7 +166,7 @@ public class userService {
     @Produces("application/json")
     public Response getStudent(@PathParam("id") Long id, @HeaderParam("username") String username) {
         UserEntity requestingUser = adminController.findByUsername(username);
-        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
         }
 
@@ -175,7 +174,7 @@ public class userService {
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }
-        if (user.getRole() != UserEntity.Role.student) {
+        if (user.getRole() != UserEntity.Role.STUDENT) {
             return Response.status(Response.Status.FORBIDDEN).entity("this user is not a student").build();
         }
 
@@ -187,7 +186,7 @@ public class userService {
     @Produces("application/json")
     public Response getInstructor(@PathParam("id") Long id, @HeaderParam("username") String username) {
         UserEntity requestingUser = adminController.findByUsername(username);
-        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
+        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.ADMIN) {
             return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
         }
 
@@ -195,7 +194,7 @@ public class userService {
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }
-        if (user.getRole() != UserEntity.Role.instructor) {
+        if (user.getRole() != UserEntity.Role.INSTRUCTOR) {
             return Response.status(Response.Status.FORBIDDEN).entity("this user is not an instructor").build();
         }
 
