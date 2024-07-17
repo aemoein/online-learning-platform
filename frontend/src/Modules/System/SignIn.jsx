@@ -13,7 +13,7 @@ const SignIn = () => {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post('http://localhost:3001/users/login', { email, password });
+      const response = await axios.post('http://localhost:8080/User-Service-1.0-SNAPSHOT/api/users/login', { email, password });
       const { token, role } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);

@@ -12,7 +12,7 @@ function StudentHome() {
 
         if (token) {
             // Use Axios instead of fetch
-            axios.get('http://localhost:3001/secure/user', {
+            axios.get('http://localhost:8080/User-Service-1.0-SNAPSHOT/users/login', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

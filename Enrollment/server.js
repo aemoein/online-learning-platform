@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const verifyTokenAndRole = require('./src/middleware/authMiddleware');
 const errorMiddleware = require('./src/middleware/errorMiddleware');

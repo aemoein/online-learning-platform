@@ -1,10 +1,14 @@
 package com.example.userservice.resources;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.userservice.controller.JwtTokenBean;
+import com.example.userservice.controller.JwtUtil;
 import com.example.userservice.controller.adminController;
 import com.example.userservice.controller.userController;
 import com.example.userservice.entity.UserEntity;
 import jakarta.ejb.EJB;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -24,12 +28,13 @@ public class userService {
     private JwtTokenBean jwtTokenBean;
 
 
+
     @POST
     @Path("/signup")
     @Consumes("application/json")
     @Produces("application/json")
     public Response signUp(UserEntity user) {
-        if (userController.findByUsername(user.getUsername()) != null) {
+        if (userController.findByUsername(user.getName()) != null) {
             return Response.status(Response.Status.CONFLICT).entity("User already exists").build();
         }
         userController.save(user);
@@ -57,18 +62,23 @@ public class userService {
                 return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid email or password").build();
             }
 
-            // Generate JWT token
             String token = jwtTokenBean.generateToken(foundUser.getId(), foundUser.getRole());
 
-            // Create a response entity to include the token
-            return Response.ok().header("Authorization", "Bearer " + token).build();
+        JsonObject responseJson = Json.createObjectBuilder()
+                .add("token",token)
+                .add("role", String.valueOf(foundUser.getRole()))
+                .build();
+
+        return Response.ok(responseJson)
+                .header("Authorization", "Bearer " + token)
+                .build();
         }
 
     @PUT
     @Path("/update")
     @Consumes("application/json")
     @Produces("application/json")
-    public Response updateUser(@HeaderParam("username") String username,UserEntity user) {
+    public Response updateUser(@HeaderParam("name") String username,UserEntity user) {
 
         UserEntity requestingUser = adminController.findByUsername(username);
         if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
@@ -80,8 +90,8 @@ public class userService {
             return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }
 
-        if(user.getUsername() != null && !user.getPassword().isEmpty()) {
-            existingUser.setUsername(user.getUsername());
+        if(user.getName() != null && !user.getPassword().isEmpty()) {
+            existingUser.setName(user.getName());
         }
         if(user.getEmail() != null && !user.getEmail().isEmpty()) {
             existingUser.setEmail(user.getEmail());
@@ -162,22 +172,25 @@ public class userService {
     }
 
     @GET
-    @Path("/student/{id}")
+    @Path("/student")
     @Produces("application/json")
-    public Response getStudent(@PathParam("id") Long id, @HeaderParam("username") String username) {
-        UserEntity requestingUser = adminController.findByUsername(username);
-        if (requestingUser == null || requestingUser.getRole() != UserEntity.Role.admin) {
-            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorized to perform this action").build();
+    public Response getStudent(@HeaderParam("Authorization") String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return Response.status(Response.Status.FORBIDDEN).entity("No token provided").build();
         }
 
-        UserEntity user = adminController.findById(id);
+        DecodedJWT decodedJWT;
+        try {
+            decodedJWT = JwtUtil.extractToken(authorizationHeader);
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token").build();
+        }
+
+        Long userId = JwtUtil.getUserId(decodedJWT);
+        UserEntity user = userController.findById(userId);
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }
-        if (user.getRole() != UserEntity.Role.student) {
-            return Response.status(Response.Status.FORBIDDEN).entity("this user is not a student").build();
-        }
-
         return Response.ok(user).build();
     }
 
@@ -200,5 +213,6 @@ public class userService {
 
         return Response.ok(user).build();
     }
+
 }
 

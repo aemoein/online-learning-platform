@@ -29,7 +29,7 @@ public class SecureEndpoint {
             String userRole = JwtUtil.getUserRole(decodedJWT);
 
             // Create a response with the user information
-            return Response.ok("UserId: " + userId + ", UserRole: " + userRole).build();
+            return Response.ok(userRole).header("Authorization",  authorizationHeader).build();
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token").build();
         }

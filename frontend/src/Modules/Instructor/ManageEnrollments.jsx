@@ -32,7 +32,7 @@ const ManageEnrollments = () => {
         const enrollmentsWithData = await Promise.all(
           enrollmentsData.map(async (enrollment) => {
             try {
-              const studentResponse = await axiosInstance.get(`http://localhost:3001/users/student/${enrollment.student}`);
+              const studentResponse = await axiosInstance.get(`http://localhost:8080/User-Service-1.0-SNAPSHOT/api/users/profile/${enrollment.student}`);
               const studentData = studentResponse.data;
   
               const courseResponse = await axiosInstance.get(`http://localhost:3002/instructor/courses/${enrollment.course}`);

@@ -11,7 +11,7 @@ public class UserEntity {
         student
     }
     @Column(nullable = false, unique = true)
-    private String username;
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -36,12 +36,12 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String username) {
+        this.name = username;
     }
 
     public String getEmail() {

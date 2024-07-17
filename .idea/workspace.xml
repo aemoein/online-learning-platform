@@ -5,16 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5823a5bb-f358-41b4-9d0e-fef33559389d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/userController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/resources/usersResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/adminController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/instructorController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/studentController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/entity/Admin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/entity/Instructor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/entity/Student.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/entity/Users.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/resources/StudentResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Course/node_modules/.bin/mime" beforeDir="false" afterPath="$PROJECT_DIR$/Course/node_modules/.bin/mime" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Course/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Course/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Course/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Course/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Course/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Course/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/node_modules/.bin/color-support" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/node_modules/.bin/color-support" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/node_modules/.bin/mime" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/node_modules/.bin/mime" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/node_modules/.bin/mkdirp" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/node_modules/.bin/mkdirp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/node_modules/.bin/node-pre-gyp" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/node_modules/.bin/node-pre-gyp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/node_modules/.bin/nopt" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/node_modules/.bin/nopt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/node_modules/.bin/rimraf" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/node_modules/.bin/rimraf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/node_modules/.bin/semver" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/node_modules/.bin/semver" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/node_modules/make-dir/node_modules/.bin/semver" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/node_modules/make-dir/node_modules/.bin/semver" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Enrollment/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/Enrollment/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Review/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/Review/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/JwtTokenBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/JwtTokenBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/adminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/adminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/userController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/controller/userController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/resources/SecureEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/resources/SecureEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/resources/userService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Users/User-Service/src/main/java/com/example/userservice/resources/userService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Modules/Instructor/InstructorHome.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Modules/Instructor/InstructorHome.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Modules/Instructor/ManageEnrollments.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Modules/Instructor/ManageEnrollments.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Modules/Student/StudentHome.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Modules/Student/StudentHome.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Modules/System/SignIn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Modules/System/SignIn.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Modules/System/SignUp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Modules/System/SignUp.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,16 +49,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ahmed/Documents/GitHub/online-learning-platform/Users/User-Service",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ahmed/Documents/GitHub/online-learning-platform/Users/User-Service&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="online-learning-platform" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="online-learning-platform" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -60,6 +92,7 @@
       <updated>1715646238641</updated>
       <workItem from="1715646239776" duration="136000" />
       <workItem from="1715646394659" duration="62000" />
+      <workItem from="1717448713261" duration="24000" />
     </task>
     <servers />
   </component>

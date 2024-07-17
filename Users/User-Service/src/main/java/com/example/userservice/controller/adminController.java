@@ -38,7 +38,7 @@ public class adminController {
 
     public UserEntity findByUsername(String username) {
         try {
-            return em.createQuery("SELECT u FROM UserEntity u WHERE u.username = :username", UserEntity.class)
+            return em.createQuery("SELECT u FROM UserEntity u WHERE u.name = :username", UserEntity.class)
                     .setParameter("username", username)
                     .getSingleResult();
         } catch (Exception e) {

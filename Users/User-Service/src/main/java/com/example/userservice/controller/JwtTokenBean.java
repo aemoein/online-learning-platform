@@ -19,7 +19,7 @@ public class JwtTokenBean {
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             String token = JWT.create()
                     .withIssuer(ISSUER)
-                    .withClaim("id", userId)
+                    .withClaim("userId", userId)
                     .withClaim("role", String.valueOf(userRole))
                     .withIssuedAt(new Date())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 3600000)) // 1 hour expiration
