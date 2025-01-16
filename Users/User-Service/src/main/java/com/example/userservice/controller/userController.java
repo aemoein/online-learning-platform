@@ -18,7 +18,7 @@ public class userController {
 
     public UserEntity findById(Long id) {
         try {
-            return em.find(UserEntity.class, id);
+            return em.find(UserEntity.class, id );
         } catch (NoResultException e) {
             return null;
         }
