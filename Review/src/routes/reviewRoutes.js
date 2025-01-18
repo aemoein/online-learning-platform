@@ -9,7 +9,7 @@ router.post('/', reviewController.createReview);
 router.get('/course/:courseId/rating', reviewController.getCourseRating);
 
 // Route to get all reviews done by a student
-router.get('/student/:studentId', reviewController.getStudentReviews);
+router.get('/student', reviewController.getStudentReviews);
 
 // Route to get all reviews done on a specific course
 router.get('/course/:courseId', reviewController.getCourseReviews);

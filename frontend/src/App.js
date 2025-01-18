@@ -15,6 +15,7 @@ import CreateCourse from './Modules/Instructor/CreateCourse';
 import CourseReview from './Modules/Admin/CourseReview';
 import AllCourses from './Modules/Student/AllCourses';
 import Notifications from './Modules/Student/Notifications';
+import CourseManagement from './Modules/Admin/PlatformAnalytics';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/admin" element={<AdminHome />} />
         <Route path="/admin/user" element={<UserManagement />} />
         <Route path="/admin/review/course" element={<CourseReview />} />
+        <Route path="/admin/track-usage" element={<CourseManagement />} />
       </Routes>
     </Router>
   );

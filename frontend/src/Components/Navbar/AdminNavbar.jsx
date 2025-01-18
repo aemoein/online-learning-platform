@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import Logout from '../Buttons/Logout';
 
 const Navbar = () => {
   return (
@@ -21,6 +22,7 @@ const Navbar = () => {
           <Button component={Link} to="/admin/track-usage" color="inherit" sx={buttonStyles}>
             Track Usage
           </Button>
+          <Logout />
         </Box>
       </Toolbar>
     </AppBar>

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
-  Paper, Button, TextField, Typography 
+  Paper, Button, TextField, Typography, Box
 } from '@mui/material';
+import Navbar from '../../Components/Navbar/AdminNavbar';
 
 function UserManagement() {
   const [users, setUsers] = useState([]);
@@ -54,7 +55,9 @@ function UserManagement() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <Typography variant="h4" gutterBottom>User Management</Typography>
+      <Navbar/>
+      <Box sx={{ height: 45 }} />
+      <Typography variant="h4" gutterBottom sx={{fontFamily: 'Poppins', fontWeight: '700'}}>User Management</Typography>
       <TextField
         variant="outlined"
         label="Search by name"

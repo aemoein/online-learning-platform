@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import Logout from '../Buttons/Logout';
 
 const Navbar = () => {
   return (
@@ -24,6 +25,7 @@ const Navbar = () => {
           <Button component={Link} to="/student/reviews" color="inherit" sx={buttonStyles}>
             Reviews
           </Button>
+          <Logout/>
         </Box>
       </Toolbar>
     </AppBar>
