@@ -19,7 +19,7 @@ function InstructorHome() {
         console.log("my token:", token)
 
         if (token) {
-            axios.get('http://localhost:8080/User-Service-1.0-SNAPSHOT/api/secure/info', {
+            axios.get('http://localhost:3001/secure/user', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
